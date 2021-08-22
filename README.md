@@ -18,6 +18,8 @@ This project is intended to provide self-managed autoscaling **k3s kubernetes cl
 
 This project utilize **[Kubernetes AWS Cloud Provider](https://github.com/kubernetes/cloud-provider-aws)** to afford the interface between a Kubernetes cluster and AWS service APIs. This project allows a Kubernetes cluster to provision, monitor and remove AWS resources necessary for operation of the cluster. This will replace the native K3s cloud controller.
 
+## Architecture
+![Architecture](k3s_cluster.svg)
 
 **List of utilized AWS:**
 - EC2
@@ -117,6 +119,4 @@ vpc_cidr          = "<vpc_cidr>"
 
 - Accessing the Cluster from Outside with kubectl. SSH to master machine, copy /etc/rancher/k3s/k3s.yaml on your machine located outside the cluster as ~/.kube/config. Then replace "127.0.0.1" with the "k3s-masters-lb_dns_name" you get as an output. Your local kubectl can now manage your K3s cluster on AWS.
 
-
-## Architecture
-![Architecture](k3s_cluster.svg)
+- Enjoy deploying your application!
