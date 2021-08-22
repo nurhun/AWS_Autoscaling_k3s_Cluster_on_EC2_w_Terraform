@@ -89,14 +89,12 @@ It consists of a container that has access to an AWS EFS resource. The container
 **Note:** Traefik Ingress is disables and NGINX Ingress is installed instead using Helm in the masters_userdata.tpl
 
 
-check periods healthcheck, desired capacity
-
 
 ## Usage
 To be able to use this project, follow below steps:
 - Clone this project on a machine with Terraform installed.  
 
-NOTE: Tested versions are:\
+&nbsp;&nbsp;&nbsp;&nbsp;**Note:** Tested versions are:\
 &nbsp;&nbsp;&nbsp;&nbsp;Terraform v0.14.10\
 &nbsp;&nbsp;&nbsp;&nbsp;+ provider registry.terraform.io/hashicorp/aws v3.42.0\
 &nbsp;&nbsp;&nbsp;&nbsp;+ provider registry.terraform.io/hashicorp/random v3.1.0\
