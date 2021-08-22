@@ -18,9 +18,6 @@ This project is intended to provide self-managed autoscaling **k3s kubernetes cl
 
 This project utilize **[Kubernetes AWS Cloud Provider](https://github.com/kubernetes/cloud-provider-aws)** to afford the interface between a Kubernetes cluster and AWS service APIs. This project allows a Kubernetes cluster to provision, monitor and remove AWS resources necessary for operation of the cluster. This will replace the native K3s cloud controller.
 
-## Architecture
-![Architecture](k3s_cluster.svg)
-
 **List of utilized AWS:**
 - EC2
 - Autoscaling Groups (ASG)
@@ -32,18 +29,24 @@ This project utilize **[Kubernetes AWS Cloud Provider](https://github.com/kubern
 - IAM
 
 
+
+## Architecture
+![Architecture](k3s_cluster.svg)
+
+
 **Cluster will be consisting of:**
 - 3 Control planes (so that it’s possible to form quorum, for DevTest purpose we start with 1).
 - 1 worker node could be scaled up to 3 worker nodes. (increases as needed)
 
 
+
 ## Main Terraform modules:
 Based on Terraform modular approach which raises the level of abstraction and helps in organizing and maintaining your code, this is the way I'm going to pursue. We have 5 modules as below:
 
-**Networking**
+### Networking:
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This module defines main network resources needed like, vpc and its availability zones based on the selected region, internet gateway, routing tables, different subnets and security groups.
 
-**Compute:**
+### Compute:
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This module defines resources of control planes and nodes. It contains all needed componenets from images, keys, IAM roles (as required by Kubernetes AWS Cloud Provider), instance profiles, lauch templates, autoscaling groups and its policy.
 
 Similar to [Kubernetes Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler), AWS Autoscaling groups configured to automatically adjusts the size of the Kubernetes cluster across multi-zones using the "Target Tracking Scaling" which increase or decrease the current capacity of the group based on a target value for a specific metric. ASG health check type is configured to be on ELB not EC2s directly.
@@ -53,7 +56,7 @@ Both control planes and nodes have their own ASG with "Average CPU utilization" 
 Note: [Cluster Autoscalar on AWS](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md) also works in a quite similar way.
 
 
-**Load_Balancing module:**
+### Load_Balancing module:
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A load balancer serves as the single point of contact for clients. The load balancer distributes incoming traffic across multiple targets using listeners. A listener checks for connection requests from clients, using the protocol and port that you configure, and forwards requests to a target group, each target group routes requests to one or more registered targets, such as EC2 instances, using the TCP protocol and the port number that you specify.
 
 So, Here I'm configuring 2 LBs, one for masters and the other for nodes, each is Network LB that makes routing decisions at the transport layer (TCP/SSL). Network LB are used to enable cross-zone load balancing.
@@ -61,13 +64,13 @@ So, Here I'm configuring 2 LBs, one for masters and the other for nodes, each is
 Each LB has a listener checks on service ports, masters' listener checks on 6443 Kubernetes API server port and nodes' listener checks on 10250 kubelet API port and they both redirect traffic to the corresponding target groups. Masters' LB used to automate nodes' registration.
 
 
-**Database module:**
+### Database module:
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This module defines the RDS for PostgreSQL instance.
 It's recommended to use PostgresQL over MySQL for better performance and avoiding lagging and hanging issues.
 I'm using the free tier "db.t2.micro" class with web subnets only granted access and it behaves sufficient enough.
 Confidential parameters such as username and password should be passed secretly through the "terraform.tfvars" file.
 
-**Storage module:**
+### Storage module:
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In this module, I'm defining the EFS file system storage on AWS.
 
 Natively, K3s comes with [Rancher’s Local Path Provisioner](https://github.com/rancher/local-path-provisioner) which provides a way for the Kubernetes users to utilize the local storage in each node. The Local Path Provisioner will create hostPath based persistent volume on the node. When deploying an application that needs to retain data while it spans across nodes, this solution won't be the right one.
@@ -92,6 +95,7 @@ check periods healthcheck, desired capacity
 ## Usage
 To be able to use this project, follow below steps:
 - Clone this project on a machine with Terraform installed.
+
 NOTE: Tested versions are:
 &nbsp;&nbsp;&nbsp;&nbsp;Terraform v0.14.10
 &nbsp;&nbsp;&nbsp;&nbsp;+ provider registry.terraform.io/hashicorp/aws v3.42.0
