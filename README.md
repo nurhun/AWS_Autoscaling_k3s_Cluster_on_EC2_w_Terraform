@@ -43,10 +43,10 @@ This project utilize **[Kubernetes AWS Cloud Provider](https://github.com/kubern
 ## Main Terraform modules:
 Based on Terraform modular approach which raises the level of abstraction and helps in organizing and maintaining your code, this is the way I'm going to pursue. We have 5 modules as below:
 
-### Networking:
+### Networking module:
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This module defines main network resources needed like, vpc and its availability zones based on the selected region, internet gateway, routing tables, different subnets and security groups.
 
-### Compute:
+### Compute module:
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This module defines resources of control planes and nodes. It contains all needed componenets from images, keys, IAM roles (as required by Kubernetes AWS Cloud Provider), instance profiles, lauch templates, autoscaling groups and its policy.
 
 Similar to [Kubernetes Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler), AWS Autoscaling groups configured to automatically adjusts the size of the Kubernetes cluster across multi-zones using the "Target Tracking Scaling" which increase or decrease the current capacity of the group based on a target value for a specific metric. ASG health check type is configured to be on ELB not EC2s directly.
@@ -94,13 +94,13 @@ check periods healthcheck, desired capacity
 
 ## Usage
 To be able to use this project, follow below steps:
-- Clone this project on a machine with Terraform installed.
+- Clone this project on a machine with Terraform installed.  
 
-NOTE: Tested versions are:
-&nbsp;&nbsp;&nbsp;&nbsp;Terraform v0.14.10
-&nbsp;&nbsp;&nbsp;&nbsp;+ provider registry.terraform.io/hashicorp/aws v3.42.0
-&nbsp;&nbsp;&nbsp;&nbsp;+ provider registry.terraform.io/hashicorp/random v3.1.0
-&nbsp;&nbsp;&nbsp;&nbsp;+ provider registry.terraform.io/hashicorp/template v2.2.0
+NOTE: Tested versions are:\
+&nbsp;&nbsp;&nbsp;&nbsp;Terraform v0.14.10\
+&nbsp;&nbsp;&nbsp;&nbsp;+ provider registry.terraform.io/hashicorp/aws v3.42.0\
+&nbsp;&nbsp;&nbsp;&nbsp;+ provider registry.terraform.io/hashicorp/random v3.1.0\
+&nbsp;&nbsp;&nbsp;&nbsp;+ provider registry.terraform.io/hashicorp/template v2.2.0\
 
 - Make sure to login to your AWS account with priviledged user where your credentials are stored in $HOME/.aws/credentials
 
