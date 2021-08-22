@@ -104,7 +104,7 @@ To be able to use this project, follow below steps:
 
 - Create the S3 bucket with versioning & Object Lock allowed & DynamoDB table as described in backends.tf file.
 
-- Pass your confidential data to terraform.tfvars file, required data as below:
+- Pass your confidential data to terraform.tfvars file, required data as below:  \
 access_ip         = ["<your_own_ip_address>"]  \
 tfstate_s3_bucket = "<s3_bucket_name>"  \
 db_name           = "<database_name>"  \
@@ -113,7 +113,7 @@ db_port           = 5432    # Depends on DB engine used or custom port.  \
 db_username       = "<database_username>"  \
 db_password       = "<database_password>"  \
 aws_region        = "<aws_region>"  \
-vpc_cidr          = "<vpc_cidr>"  \
+vpc_cidr          = "<vpc_cidr>"  
 
 - Double check values in main.tf file to make sure it fits your needs.
 
