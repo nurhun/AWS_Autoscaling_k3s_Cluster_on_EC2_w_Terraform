@@ -119,4 +119,4 @@ vpc_cidr          = "<vpc_cidr>"
 
 
 ## Architecture
-![Architecture](image.svc)
+![Architecture](k3s_cluster.svg)
