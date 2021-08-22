@@ -76,9 +76,9 @@ Confidential parameters such as username and password should be passed secretly 
 Natively, K3s comes with [Rancher’s Local Path Provisioner](https://github.com/rancher/local-path-provisioner) which provides a way for the Kubernetes users to utilize the local storage in each node. The Local Path Provisioner will create hostPath based persistent volume on the node. When deploying an application that needs to retain data while it spans across nodes, this solution won't be the right one.
 
 Then, for dynamic provisioning, we might use:
-* Longhorn: k3s supports Longhorn. Longhorn is an open-source distributed block storage system for Kubernetes but requires high resources.
-* Local NFS provisioner: This provisioner includes a built in NFS server. It intiates a pod called "my-nfs-nfs-server-provisioner-0" and a service called "my-nfs-nfs-server-provisioner" as the NFS server. However it works but still data redundancy is at risk.
-* AWS EFS provisioner: The efs-provisioner allows you to mount EFS storage as PersistentVolumes in kubernetes. It supports ReadWriteMany (RWX). 
+* **Longhorn:** k3s supports Longhorn. Longhorn is an open-source distributed block storage system for Kubernetes but requires high resources.
+* **Local NFS provisioner:** This provisioner includes a built in NFS server. It intiates a pod called "my-nfs-nfs-server-provisioner-0" and a service called "my-nfs-nfs-server-provisioner" as the NFS server. However it works but still data redundancy is at risk.
+* **AWS EFS provisioner:** The efs-provisioner allows you to mount EFS storage as PersistentVolumes in kubernetes. It supports ReadWriteMany (RWX). 
 It consists of a container that has access to an AWS EFS resource. The container reads a configmap which contains the EFS filesystem ID, the AWS region and the name you want to use for your efs-provisioner. And, It's accessible only from web subnets.
 
 
