@@ -2,7 +2,7 @@
 
 This project is intended to provide self-managed autoscaling **k3s kubernetes cluster** using **Terraform** IaC approach on **AWS**.
 
-**K3s** is a lightweight, certified Kubernetes distribution sandbox project by **[CNCF](https://www.cncf.io/sandbox-projects/)**, packaged as a single binary. Natively, it requires some external dependencies, including:
+**[K3s](https://github.com/k3s-io/k3s)** is a lightweight, certified Kubernetes distribution sandbox project by **[CNCF](https://www.cncf.io/sandbox-projects/)**, packaged as a single binary. Natively, it requires some external dependencies, including:
 * containerd
 * Flannel
 * CoreDNS
