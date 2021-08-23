@@ -121,6 +121,6 @@ vpc_cidr          = "<vpc_cidr>"
 
 - Accessing the Cluster from Outside with kubectl. SSH to master machine, copy /etc/rancher/k3s/k3s.yaml on your machine located outside the cluster as ~/.kube/config. Then replace "127.0.0.1" with the "k3s-masters-lb_dns_name" you get as an output. Your local kubectl can now manage your K3s cluster on AWS.
 
-- Once you're in, you'll find your CI **[Jenkins](https://github.com/jenkinsci/jenkins)** and CD **[ArgoCD](https://github.com/argoproj/argo-cd)** already installed and ready for use. Jenkins cloud could be configured to run you pipeline in pods inside your cluster and ArgoCD automates the deployment of the desired application states in the specified target environments.
+- Once you're in, you'll find your CI **[Jenkins](https://github.com/jenkinsci/jenkins)** and CD **[ArgoCD](https://github.com/argoproj/argo-cd)** already installed and ready for use. Jenkins cloud could be configured to run your pipeline in pods inside the cluster and ArgoCD automates the deployment of the desired application states in the specified target environments.
 
 - Enjoy deploying your application!
