@@ -14,7 +14,7 @@ This project is intended to provide self-managed autoscaling **k3s kubernetes cl
 
 **Note:** we will replace some of these dependencies with better fit solutions.
 
-**Terrafrom** is a great tool for cloud infrastructure provisioning. It’s ability to work with various Cloud providers, high level IaaC syntax and simplicity of dependencies set it right in front of the queue as an Enterprise level as well as low level cloud infra provisioning.
+**[Terrafrom](https://github.com/hashicorp/terraform)** is a great tool for cloud infrastructure provisioning. It’s ability to work with various Cloud providers, high level IaaC syntax and simplicity of dependencies set it right in front of the queue as an Enterprise level as well as low level cloud infra provisioning.
 
 This project utilize **[Kubernetes AWS Cloud Provider](https://github.com/kubernetes/cloud-provider-aws)** to afford the interface between a Kubernetes cluster and AWS service APIs. This project allows a Kubernetes cluster to provision, monitor and remove AWS resources necessary for operation of the cluster. This will replace the native K3s cloud controller.
 
