@@ -2,7 +2,7 @@
 
 This project is intended to provide self-managed autoscaling **k3s kubernetes cluster** using **Terraform** IaC approach on **AWS**.
 
-**K3s** is a lightweight, certified Kubernetes distribution sandbox project by **[CNCF](https://www.cncf.io/sandbox-projects/)**, packaged as a single binary. Natively, it requires some external dependencies, including:
+**[K3s](https://github.com/k3s-io/k3s)** is a lightweight, certified Kubernetes distribution sandbox project by **[CNCF](https://www.cncf.io/sandbox-projects/)**, packaged as a single binary. Natively, it requires some external dependencies, including:
 * containerd
 * Flannel
 * CoreDNS
@@ -14,7 +14,7 @@ This project is intended to provide self-managed autoscaling **k3s kubernetes cl
 
 **Note:** we will replace some of these dependencies with better fit solutions.
 
-**Terrafrom** is a great tool for cloud infrastructure provisioning. It’s ability to work with various Cloud providers, high level IaaC syntax and simplicity of dependencies set it right in front of the queue as an Enterprise level as well as low level cloud infra provisioning.
+**[Terrafrom](https://github.com/hashicorp/terraform)** is a great tool for cloud infrastructure provisioning. It’s ability to work with various Cloud providers, high level IaaC syntax and simplicity of dependencies set it right in front of the queue as an Enterprise level as well as low level cloud infra provisioning.
 
 This project utilize **[Kubernetes AWS Cloud Provider](https://github.com/kubernetes/cloud-provider-aws)** to afford the interface between a Kubernetes cluster and AWS service APIs. This project allows a Kubernetes cluster to provision, monitor and remove AWS resources necessary for operation of the cluster. This will replace the native K3s cloud controller.
 
@@ -120,5 +120,7 @@ vpc_cidr          = "<vpc_cidr>"
 - Run terraform commands, terraform init, terraform validate, terraform plan & terraform apply --auto-approve and **within less than 10 minutes you'll have up and running kubernetes cluster.**
 
 - Accessing the Cluster from Outside with kubectl. SSH to master machine, copy /etc/rancher/k3s/k3s.yaml on your machine located outside the cluster as ~/.kube/config. Then replace "127.0.0.1" with the "k3s-masters-lb_dns_name" you get as an output. Your local kubectl can now manage your K3s cluster on AWS.
+
+- Once you're in, you'll find your CI **[Jenkins](https://github.com/jenkinsci/jenkins)** and CD **[ArgoCD](https://github.com/argoproj/argo-cd)** already installed and ready for use. Jenkins cloud could be configured to run your pipeline in pods inside the cluster and ArgoCD automates the deployment of the desired application states in the specified target environments.
 
 - Enjoy deploying your application!
