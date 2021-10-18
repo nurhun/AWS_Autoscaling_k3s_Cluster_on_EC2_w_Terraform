@@ -253,7 +253,7 @@ resource "aws_launch_template" "k3s_control_plane_launch_temp" {
     device_name = "/dev/sda1"
 
     ebs {
-      volume_size = 10
+      volume_size = 15
     }
   }
 
@@ -367,7 +367,7 @@ resource "aws_launch_template" "k3s_nodes_launch_temp" {
     device_name = "/dev/sda1"
 
     ebs {
-      volume_size = 12
+      volume_size = 15
     }
   }
 

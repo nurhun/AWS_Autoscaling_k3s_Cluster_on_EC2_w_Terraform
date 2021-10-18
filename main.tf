@@ -92,7 +92,7 @@ module "compute" {
   asg_k3s_nodes_min_count                           = "1"
   asg_k3s_nodes_desired_count                       = "1"
   asg_k3s_nodes_subnet_ids                          = module.networking.public_subnets_ids
-  # asg_k3s_nodes_lb_target_group_arns                = [module.load_balancing.k3s-nodes-int-lb-tg-arn, module.load_balancing.k3s-nodes-ext-lb-tg-arn]
+  # asg_k3s_nodes_lb_target_group_arns                = [module.load_balancing.k3s-nodes-ext-lb-tg-arn]
   asg_k3s_nodes_lb_target_group_arns                = [module.load_balancing.k3s-nodes-int-lb-tg-arn]
 
   asg_k3s_nodes_health_check_type                   = "ELB"
