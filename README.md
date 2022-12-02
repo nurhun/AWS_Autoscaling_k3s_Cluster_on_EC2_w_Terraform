@@ -125,5 +125,5 @@ vpc_cidr          = "<vpc_cidr>"
 
 - Enjoy deploying your application!
 
-## Documentation:
- Automatically generated documentation using [terraform-docs](https://github.com/terraform-docs/terraform-docs/). Documentation options are passed through `.terraform-docs.yml` file, with selected format is "markdown table".
+## Documentation
+ Automatically generated documentation using **[terraform-docs](https://github.com/terraform-docs/terraform-docs/)**. Documentation options are passed through `.terraform-docs.yml` file, with selected format is "markdown table".
