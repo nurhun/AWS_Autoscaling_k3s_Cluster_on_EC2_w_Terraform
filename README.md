@@ -124,3 +124,6 @@ vpc_cidr          = "<vpc_cidr>"
 - Once you're in, you'll find your CI **[Jenkins](https://github.com/jenkinsci/jenkins)** and CD **[ArgoCD](https://github.com/argoproj/argo-cd)** already installed and ready for use. Jenkins cloud could be configured to run your pipeline in pods inside the cluster and ArgoCD automates the deployment of the desired application states in the specified target environments.
 
 - Enjoy deploying your application!
+
+## Documentation:
+ Automatically generated documentation using [terraform-docs](https://github.com/terraform-docs/terraform-docs/). Documentation options are passed through `.terraform-docs.yml` file, with selected format is "markdown table".
