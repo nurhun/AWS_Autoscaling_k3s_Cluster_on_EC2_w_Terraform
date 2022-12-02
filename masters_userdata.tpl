@@ -122,7 +122,7 @@ helm repo update
 helm install aws-cloud-controller-manager aws-cloud-controller-manager/aws-cloud-controller-manager --version 0.0.2
 
 
-# Install kubernetes ingress controller:
+# Install ingress controller:
 
 # Note: Ingress is installed as DaemonSet instead of Deployment.
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
@@ -191,41 +191,72 @@ helm --kubeconfig /etc/rancher/k3s/k3s.yaml install my-efs stable/efs-provisione
 # Modify frontend service to Lb to get access to UI.
 
 
-# ArgoCD
-kubectl create namespace argocd
-kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-kubectl patch svc argocd-server -n argocd -p '{"spec": {"ports": [{"name": "http", "port": 6060, "protocol": "TCP", "targetPort": 8080},{"name": "https", "port": 443, "protocol": "TCP", "targetPort": 8080}] }}' --type merge
-kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
+# # ArgoCD
+# kubectl create namespace argocd
+# kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+# kubectl patch svc argocd-server -n argocd -p '{"spec": {"ports": [{"name": "http", "port": 6060, "protocol": "TCP", "targetPort": 8080},{"name": "https", "port": 443, "protocol": "TCP", "targetPort": 8080}] }}' --type merge
+# kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
 
-# To get admin user initial password:
-# kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
-
-sleep 60
-
-# Jenkins
-helm repo add jenkinsci https://charts.jenkins.io
-helm repo update
-kubectl create ns jenkins
-kubectl apply -f https://raw.githubusercontent.com/nurhun/jenkisn_pvc/main/pvc_jks.yaml
-kubectl apply -f https://raw.githubusercontent.com/jenkins-infra/jenkins.io/master/content/doc/tutorials/kubernetes/installing-jenkins-on-kubernetes/jenkins-sa.yaml 
-cp /etc/rancher/k3s/k3s.yaml $HOME/.kube/config
-helm install my-jenkins jenkinsci/jenkins -n jenkins \
---set controller.serviceType=LoadBalancer \
---set controller.servicePort=8888 \
---set persistence.existingClaim=jenkins-pvc \
---set persistence.accessMode=ReadWriteMany \
---set agent.enabled=true \
---set agent.image=nurhun/my_custom_jenkins_inboud_agent \
---set agent.tag=v1.0 \
---set agent.workingDir=/home/jenkins/agent \
---set agent.volumes[0].type=HostPath \
---set agent.volumes[0].hostPath=/var/run/docker.sock \
---set agent.volumes[0].mountPath=/var/run/docker.sock
-
-# Get admin password:
-# printf $(kubectl get secret --namespace jenkins my-jenkins -o jsonpath="{.data.jenkins-admin-password}" | base64 --decode);echo
+# # To get admin user initial password:
+# printf $(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d);echo
 
 
+# sleep 60
+
+ 
+#### Jenkins ####
+
+# #### AWS K3s ####
+# helm repo add jenkinsci https://charts.jenkins.io
+# helm repo update
+# kubectl create ns jenkins
+# kubectl apply -f https://raw.githubusercontent.com/nurhun/jenkisn_pvc/main/pvc_jks.yaml
+# kubectl apply -f https://raw.githubusercontent.com/jenkins-infra/jenkins.io/master/content/doc/tutorials/kubernetes/installing-jenkins-on-kubernetes/jenkins-sa.yaml 
+# cp /etc/rancher/k3s/k3s.yaml $HOME/.kube/config
+# helm install my-jenkins jenkinsci/jenkins -n jenkins \
+# --set controller.serviceType=LoadBalancer \
+# --set controller.servicePort=8888 \
+# --set persistence.existingClaim=jenkins-pvc \
+# --set persistence.accessMode=ReadWriteMany \
+# --set agent.enabled=true \
+# --set agent.image=nurhun/jenkins-inbound-agent-w-docker \
+# --set agent.tag=v0.6 \
+# --set agent.workingDir=/home/jenkins/agent \
+# --set agent.args="" \
+# --set agent.volumes[0].type=HostPath \
+# --set agent.volumes[0].hostPath=/var/run/docker.sock \
+# --set agent.volumes[0].mountPath=/var/run/docker.sock \
+# --set agent.runAsUser=1000 \
+# --set agent.runAsGroup=412 \
+# --set agent.privileged=true
+
+# --set agent.image=nurhun/my_custom_jenkins_inboud_agent \
+# --set agent.tag=v1.0 \
+
+
+# #### GKE ####
+# helm repo add jenkinsci https://charts.jenkins.io
+# helm repo update
+# kubectl create ns sir
+# kubectl apply -f https://raw.githubusercontent.com/nurhun/jenkisn_pvc/main/jenkins_pvc_gcp.yaml
+# kubectl apply -f https://raw.githubusercontent.com/jenkins-infra/jenkins.io/master/content/doc/tutorials/kubernetes/installing-jenkins-on-kubernetes/jenkins-sa.yaml 
+# helm install my-jenkins jenkinsci/jenkins -n sir \
+# --set controller.serviceType=LoadBalancer \
+# --set controller.servicePort=8888 \
+# --set persistence.existingClaim=jenkins-pvc \
+# --set persistence.accessMode=ReadWriteOnce \
+# --set agent.enabled=true \
+# --set agent.image=nurhun/jenkins-inbound-agent-w-docker \
+# --set agent.tag=v0.6 \
+# --set agent.workingDir=/home/jenkins/agent \
+# --set agent.volumes[0].type=HostPath \
+# --set agent.volumes[0].hostPath=/var/run/docker.sock \
+# --set agent.volumes[0].mountPath=/var/run/docker.sock \
+# --set agent.runAsGroup=412
+# # --set agent.privileged=true
+
+# # Get admin password:
+# printf $(kubectl get secret --namespace sir my-jenkins -o jsonpath="{.data.jenkins-admin-password}" | base64 --decode);echo
 
 
 # # Way 2: K3s with native K3s Cloud Controller manager (ccm)

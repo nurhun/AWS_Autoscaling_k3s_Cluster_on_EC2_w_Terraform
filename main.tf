@@ -2,7 +2,7 @@
 
 
 module "networking" {
-  source = "./networking"
+  source = "./modules/networking"
 
   vpc_cidr                = var.vpc_cidr
   # Will generate list of ["10.0.1.0/24", "10.0.3.0/24", "10.0.5.0/24"]
@@ -14,7 +14,7 @@ module "networking" {
 
 
 module "database" {
-  source                         = "./database"
+  source                         = "./modules/database"
   db_engine                      = "postgres"
   db_engine_version              = "11.5"
   db_port                        = var.db_port
@@ -46,7 +46,7 @@ module "database" {
 
 
 module "compute" {
-  source = "./compute"
+  source = "./modules/compute"
 
   asg_k3s_key_name                                  = "k3s_ec2_auth"
   asg_k3s_auth_key_path                             = pathexpand("~/.ssh/k8s_ec2_auth.pub")
@@ -107,7 +107,7 @@ module "compute" {
 
 
 module "load_balancing" {
-  source = "./load_balancing"
+  source = "./modules/load_balancing"
   vpc_id = module.networking.vpc_id
 
   k3s_masters_lb_type                               = "network"
@@ -147,7 +147,7 @@ module "load_balancing" {
 
 
 module "storage" {
-  source                = "./storage"
+  source                = "./modules/storage"
   efs_encrypted         = true
   efs_performance_mode  = "generalPurpose"
   efs_throughput_mode   = "bursting"
